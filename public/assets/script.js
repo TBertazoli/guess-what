@@ -1,5 +1,3 @@
-// const postResults = require("./userResults");
-
 //function to colect numbers
 const submitGuess = function () {
   const firstDigit = $("#first-digit").val();
@@ -18,11 +16,16 @@ const submitGuess = function () {
     },
     function (response) {
       console.log(response);
+      if (response.correctNumbers == 4) {
+        $("#incoming-results").text("You won!");
+      } else {
+        $("#incoming-results").text(
+          response.correctNumbers +
+            " correct numbers and " +
+            response.correctLocation +
+            " correct location"
+        );
+      }
     }
   );
 };
-
-//GET request to server
-// $.get("/results", function (response) {
-//   console.log(response, "teste8");
-// });

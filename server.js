@@ -78,13 +78,17 @@ const compareResults = function (generatedNumber, guess) {
   let incorrect = 0;
   for (var i = 0; i < generatedNumber.length; i++) {
     if (generatedNumber[i] == guess[i]) {
-      console.log("correct");
       correctNumbers++;
-    } else if (generatedNumber.indexOf(guess[i]) > -1) {
-      console.log("correct number, incorrect location");
       correctLocation++;
+    } else if (
+      generatedNumber[i] == guess[i] &&
+      generatedNumber.indexOf(guess[i]) > -1
+    ) {
+      correctNumbers++;
+      correctLocation++;
+    } else if (generatedNumber.indexOf(guess[i]) > -1) {
+      correctNumbers++;
     } else {
-      console.log("incorrect");
       incorrect++;
     }
   }
