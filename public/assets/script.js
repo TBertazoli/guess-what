@@ -9,4 +9,15 @@ const submitGuess = function () {
 
   var guess = [firstDigit, secondDigit, thirdDigit, fourthDigit];
   console.log(guess);
+
+  //POST request to server
+  $.post(
+    "/results",
+    {
+      guess: guess,
+    },
+    function (response) {
+      console.log(response);
+    }
+  );
 };

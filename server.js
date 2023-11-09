@@ -21,6 +21,19 @@ app.use(
   })
 );
 
+//routes
+app.post("/results", async (req, res) => {
+  if (req.session.randomNumber) {
+    console.log("session exists");
+    compareResults(req.session.randomNumber, req.body.guess);
+  } else {
+    const randomNumber = await generateRandomNumber();
+    req.session.randomNumber = randomNumber;
+    compareResults(randomNumber, req.body.guess);
+  }
+  res.sendStatus(200);
+});
+
 app.listen(PORT, () => {
   console.log(`App listening on PORT: ${PORT}`);
 });
