@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MasterMind Game</title>
+  </head>
+
+  <body>
+    <div>
+      <h1>Mastermind Game</h1>
+    </div>
+    <div className="{styles.description}">
+      <div>
+        <h2>Instructions</h2>
+        <p>
+          Welcome to our guessing game.Guess the 4 digit secret code in as few
+          tries as possible. You will have a total of 10 attempts.
+        </p>
+      </div>
+      <div>
+        <div>
+          <input type="text" id="first-digit" />
+          <input type="text" id="second-digit" />
+          <input type="text" id="third-digit" />
+          <input type="text" id="fourth-digit" />
+        </div>
+        <div>
+          <button type="button" class="btn" onClick="submitGuess()">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./assets/script.js"></script>
+  </body>
+</html>
