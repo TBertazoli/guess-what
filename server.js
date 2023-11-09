@@ -21,6 +21,29 @@ app.use(
   })
 );
 
+//function to generate random numbers from random.org
+var generateRandomNumber = async function () {
+  return fetch(
+    "https://www.random.org/integers/?num=4&min=0&max=9&col=1&base=10&format=plain&rnd=new",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        userId: 1,
+        title: "randomNumber",
+        completed: false,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }
+  )
+    .then((response) => response.text())
+    .then((data) => {
+      const fixed = data.split("\n").splice(0, 4);
+      return fixed;
+    });
+};
+
 //routes
 app.post("/results", async (req, res) => {
   if (req.session.randomNumber) {
@@ -38,18 +61,24 @@ app.post("/results", async (req, res) => {
 const compareResults = function (generatedNumber, guess) {
   console.log(generatedNumber, "generated number");
   console.log(guess, "guess ");
-  const correctNumbers = [];
-  var count = 0;
+  let correctNumbers = 0;
+  let correctLocation = 0;
+  let incorrect = 0;
   for (var i = 0; i < generatedNumber.length; i++) {
     if (generatedNumber[i] == guess[i]) {
       console.log("correct");
-      count++;
+      correctNumbers++;
     } else if (generatedNumber.indexOf(guess[i]) > -1) {
       console.log("correct number, incorrect location");
+      correctLocation++;
     } else {
       console.log("incorrect");
+      incorrect++;
     }
   }
+  console.log(correctNumbers, "correct numbers");
+  console.log(correctLocation, "correct location");
+  console.log(incorrect, "incorrect");
 };
 
 app.listen(PORT, () => {
