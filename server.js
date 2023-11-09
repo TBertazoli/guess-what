@@ -34,6 +34,24 @@ app.post("/results", async (req, res) => {
   res.sendStatus(200);
 });
 
+//function to compare results
+const compareResults = function (generatedNumber, guess) {
+  console.log(generatedNumber, "generated number");
+  console.log(guess, "guess ");
+  const correctNumbers = [];
+  var count = 0;
+  for (var i = 0; i < generatedNumber.length; i++) {
+    if (generatedNumber[i] == guess[i]) {
+      console.log("correct");
+      count++;
+    } else if (generatedNumber.indexOf(guess[i]) > -1) {
+      console.log("correct number, incorrect location");
+    } else {
+      console.log("incorrect");
+    }
+  }
+};
+
 app.listen(PORT, () => {
   console.log(`App listening on PORT: ${PORT}`);
 });
