@@ -1,5 +1,6 @@
 const express = require("express");
 const sessions = require("express-session");
+const { reset } = require("nodemon");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -48,14 +49,25 @@ var generateRandomNumber = async function () {
 app.post("/results", async (req, res) => {
   if (req.session.randomNumber) {
     console.log("session exists");
-    compareResults(req.session.randomNumber, req.body.guess);
+    req.session.counter++;
+    if (req.session.counter > 10) {
+      resetGame(req);
+      res.json({ message: "game over" });
+      return;
+    }
+    return res.json(compareResults(req.session.randomNumber, req.body.guess));
   } else {
     const randomNumber = await generateRandomNumber();
     req.session.randomNumber = randomNumber;
-    compareResults(randomNumber, req.body.guess);
+    req.session.counter = 1;
+    return res.json(compareResults(randomNumber, req.body.guess));
   }
-  res.sendStatus(200);
 });
+
+//function to reset the game and session
+function resetGame(req) {
+  req.session.destroy();
+}
 
 //function to compare results
 const compareResults = function (generatedNumber, guess) {
@@ -76,9 +88,15 @@ const compareResults = function (generatedNumber, guess) {
       incorrect++;
     }
   }
+
   console.log(correctNumbers, "correct numbers");
   console.log(correctLocation, "correct location");
   console.log(incorrect, "incorrect");
+  return {
+    correctNumbers: correctNumbers,
+    correctLocation: correctLocation,
+    incorrect: incorrect,
+  };
 };
 
 app.listen(PORT, () => {

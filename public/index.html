@@ -24,17 +24,20 @@
       </div>
       <div> 
         <div class="input">
-          <input type="text" id="first-digit" />
-          <input type="text" id="second-digit" />
-          <input type="text" id="third-digit" />
-          <input type="text" id="fourth-digit" /> 
+          <input type="number" min="0" max="9" id="first-digit" />
+          <input type="number" min="0" max="9" id="second-digit" />
+          <input type="number" min="0" max="9" id="third-digit" />
+          <input type="number" min="0" max="9" id="fourth-digit" /> 
         </div>    
                       
           <button type="button" class="btn" onClick="submitGuess()">
             Submit
           </button>        
       </div>    
-    </div>  
+    </div> 
+    <div class="description">      
+        <h2>Results</h2>
+    </div> 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./assets/script.js"></script>

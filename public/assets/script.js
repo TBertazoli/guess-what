@@ -21,3 +21,8 @@ const submitGuess = function () {
     }
   );
 };
+
+//GET request to server
+// $.get("/results", function (response) {
+//   console.log(response, "teste8");
+// });
