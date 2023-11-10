@@ -55,12 +55,20 @@ app.post("/results", async (req, res) => {
       res.json({ message: "game over" });
       return;
     }
-    return res.json(compareResults(req.session.randomNumber, req.body.guess));
+    return res.json(
+      compareResults(
+        req.session.randomNumber,
+        req.body.guess,
+        req.session.counter
+      )
+    );
   } else {
     const randomNumber = await generateRandomNumber();
     req.session.randomNumber = randomNumber;
     req.session.counter = 1;
-    return res.json(compareResults(randomNumber, req.body.guess));
+    return res.json(
+      compareResults(randomNumber, req.body.guess, req.session.counter)
+    );
   }
 });
 
@@ -70,12 +78,13 @@ function resetGame(req) {
 }
 
 //function to compare results
-const compareResults = function (generatedNumber, guess) {
+const compareResults = function (generatedNumber, guess, countGuess) {
   console.log(generatedNumber, "generated number");
   console.log(guess, "guess ");
   let correctNumbers = 0;
   let correctLocation = 0;
   let incorrect = 0;
+
   for (var i = 0; i < generatedNumber.length; i++) {
     if (generatedNumber[i] == guess[i]) {
       correctNumbers++;
@@ -100,6 +109,7 @@ const compareResults = function (generatedNumber, guess) {
     correctNumbers: correctNumbers,
     correctLocation: correctLocation,
     incorrect: incorrect,
+    countGuess: countGuess,
   };
 };
 

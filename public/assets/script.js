@@ -8,23 +8,32 @@ const submitGuess = function () {
   var guess = [firstDigit, secondDigit, thirdDigit, fourthDigit];
   console.log(guess);
 
-  //POST request to server
+  //POST request to server and return response
   $.post(
     "/results",
     {
       guess: guess,
     },
     function (response) {
-      console.log(response);
+      //attemps diaplay
+      $("#attempt-number").text(10 - response.countGuess);
+
+      //results display
+      var elementTable = $("<li></li>").addClass("results");
       if (response.correctNumbers == 4) {
-        $("#incoming-results").text("You won!");
+        elementTable.text("Congratulations You won!");
+        $("#incoming-results").append(elementTable);
+      } else if (response.incorrect == 4) {
+        createElement.text("all incorrect");
+        $("#incoming-results").append(elementTable);
       } else {
-        $("#incoming-results").text(
+        elementTable.text(
           response.correctNumbers +
             " correct numbers and " +
             response.correctLocation +
             " correct location"
         );
+        $("#incoming-results").append(elementTable);
       }
     }
   );
