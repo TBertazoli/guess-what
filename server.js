@@ -87,13 +87,7 @@ const compareResults = function (generatedNumber, guess, countGuess) {
     if (generatedNumber[i] == guess[i]) {
       correctNumbers++;
       correctLocation++;
-    } else if (
-      generatedNumber[i] == guess[i] &&
-      generatedNumber.indexOf(guess[i]) > -1
-    ) {
-      correctNumbers++;
-      correctLocation++;
-    } else if (generatedNumber.indexOf(guess[i]) > -1) {
+    } else if (guess.includes(generatedNumber[i])) {
       correctNumbers++;
     } else {
       incorrect++;
