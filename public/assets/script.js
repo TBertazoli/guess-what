@@ -7,6 +7,15 @@ const submitGuess = function () {
 
   var guess = [firstDigit, secondDigit, thirdDigit, fourthDigit];
   console.log(guess);
+  if (guess.includes("")) {
+    alert("Please enter a number");
+    return;
+  }
+
+  if (guess.length !== 4) {
+    alert("Please enter a 4 digit number");
+    return;
+  }
 
   //POST request to server and return response
   $.post(
@@ -19,8 +28,8 @@ const submitGuess = function () {
       $("#attempt-number").text(10 - response.countGuess);
 
       //results display
-      var elementTable = $("<li></li>").addClass("results");
-      if (response.correctNumbers == 4) {
+      var elementTable = $("<li></li>");
+      if (response.correctNumbers == 4 && response.correctLocation == 4) {
         elementTable.text("Congratulations You won!");
         $("#incoming-results").append(elementTable);
       } else if (response.incorrect == 4) {
