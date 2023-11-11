@@ -8,13 +8,17 @@ const submitGuess = function () {
   var guess = [firstDigit, secondDigit, thirdDigit, fourthDigit];
 
   //POST request to server and return response
-  $.post(
-    "/results",
-    {
-      guess: guess,
-    },
+  $.post("/results", {
+    guess: guess,
+  })
+    //error handling
+    .fail((err) => {
+      console.log(err);
+      $("#toast").addClass("show");
+    })
     //response from server
-    function (response) {
+    .done((response) => {
+      console.log(response);
       //attemps diaplay
       $("#attempt-number").text(10 - response.countGuess);
 
@@ -35,6 +39,10 @@ const submitGuess = function () {
         );
         $("#incoming-results").append(elementTable);
       }
-    }
-  );
+    });
 };
+
+//function to close toast
+function closeToast() {
+  $("#toast").removeClass("show");
+}

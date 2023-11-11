@@ -87,13 +87,17 @@ const compareResults = function (generatedNumber, guess, countGuess) {
   let correctNumbers = 0;
   let correctLocation = 0;
   let incorrect = 0;
+  let matchedNumber = new Set();
 
   for (var i = 0; i < generatedNumber.length; i++) {
     if (generatedNumber[i] == guess[i]) {
+      matchedNumber.add(generatedNumber[i]);
       correctNumbers++;
       correctLocation++;
-    } else if (guess.includes(generatedNumber[i])) {
-      console.log(guess.includes(generatedNumber[i]));
+    } else if (
+      generatedNumber.includes(guess[i]) &&
+      !matchedNumber.has(guess[i])
+    ) {
       correctNumbers++;
     } else {
       incorrect++;
