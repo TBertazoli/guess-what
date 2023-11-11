@@ -45,6 +45,11 @@ var generateRandomNumber = async function () {
 
 //routes
 app.post("/results", async (req, res) => {
+  if (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) {
+    res.statusMessage = "invalid input";
+    res.status(400).end();
+    return;
+  }
   if (req.session.randomNumber) {
     console.log("session exists");
     req.session.counter++;
@@ -88,6 +93,7 @@ const compareResults = function (generatedNumber, guess, countGuess) {
       correctNumbers++;
       correctLocation++;
     } else if (guess.includes(generatedNumber[i])) {
+      console.log(guess.includes(generatedNumber[i]));
       correctNumbers++;
     } else {
       incorrect++;

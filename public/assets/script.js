@@ -6,16 +6,6 @@ const submitGuess = function () {
   const fourthDigit = $("#fourth-digit").val();
 
   var guess = [firstDigit, secondDigit, thirdDigit, fourthDigit];
-  console.log(guess);
-  if (guess.includes("")) {
-    alert("Please enter a number");
-    return;
-  }
-
-  if (guess.length !== 4) {
-    alert("Please enter a 4 digit number");
-    return;
-  }
 
   //POST request to server and return response
   $.post(
@@ -23,6 +13,7 @@ const submitGuess = function () {
     {
       guess: guess,
     },
+    //response from server
     function (response) {
       //attemps diaplay
       $("#attempt-number").text(10 - response.countGuess);
@@ -33,7 +24,7 @@ const submitGuess = function () {
         elementTable.text("Congratulations You won!");
         $("#incoming-results").append(elementTable);
       } else if (response.incorrect == 4) {
-        createElement.text("all incorrect");
+        elementTable.text("all incorrect");
         $("#incoming-results").append(elementTable);
       } else {
         elementTable.text(
