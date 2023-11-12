@@ -17,8 +17,10 @@
   <body>
     <div class="main">
       <h1>Mastermind Game</h1>
-      <div class="display-attempts">
-        <h5>You have: <span id="attempt-number"></span> attempts left</h5>
+      <div class="d-none text-center mt-2" id="show-attempts">
+        <h5>
+          <span id="attempt-number"></span>
+        </h5>
       </div>
 
       <div class="instructions">
@@ -61,13 +63,17 @@
             id="fourth-digit"
           />
         </div>
-
-        <button type="button" class="btn btn-primary" onClick="submitGuess()">
-          Submit
-        </button>
+        <div class="d-flex" style="justify-content: space-between">
+          <button type="button" class="btn btn-primary" onClick="submitGuess()">
+            Submit
+          </button>
+          <button type="button" class="btn btn-primary" onClick="resetGame()">
+            Reset
+          </button>
+        </div>
       </div>
 
-      <div class="display-results">
+      <div id="results" class="d-none" style="margin-top: 20px">
         <h2>Results</h2>
         <ul>
           <li id="incoming-results"></li>

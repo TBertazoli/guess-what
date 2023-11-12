@@ -19,25 +19,36 @@ const submitGuess = function () {
     //response from server
     .done((response) => {
       console.log(response);
-      //attemps diaplay
-      $("#attempt-number").text(10 - response.countGuess);
 
-      //results display
-      var elementTable = $("<li></li>");
-      if (response.correctNumbers == 4 && response.correctLocation == 4) {
-        elementTable.text("Congratulations You won!");
-        $("#incoming-results").append(elementTable);
-      } else if (response.incorrect == 4) {
-        elementTable.text("all incorrect");
-        $("#incoming-results").append(elementTable);
+      //attemps diaplays
+      let attempts = 10 - response.countGuess;
+      if (attempts == 0 || !response.countGuess) {
+        $("#attempt-number").text("Game-over");
       } else {
-        elementTable.text(
-          response.correctNumbers +
-            " correct numbers and " +
-            response.correctLocation +
-            " correct location"
-        );
-        $("#incoming-results").append(elementTable);
+        $("#attempt-number").text("You have " + attempts + " attempts left");
+        todisplayResults(response);
+      }
+
+      function todisplayResults(response) {
+        //results display
+        $("#show-attempts").removeClass("d-none");
+        $("#results").removeClass("d-none");
+        var elementTable = $("<li></li>");
+        if (response.correctNumbers == 4 && response.correctLocation == 4) {
+          elementTable.text("Congratulations You won!");
+          $("#incoming-results").append(elementTable);
+        } else if (response.incorrect == 4) {
+          elementTable.text("all incorrect");
+          $("#incoming-results").append(elementTable);
+        } else {
+          elementTable.text(
+            response.correctNumbers +
+              " correct numbers and " +
+              response.correctLocation +
+              " correct location"
+          );
+          $("#incoming-results").append(elementTable);
+        }
       }
     });
 };
@@ -45,4 +56,17 @@ const submitGuess = function () {
 //function to close toast
 function closeToast() {
   $("#toast").removeClass("show");
+}
+
+//function to reset game
+function resetGame() {
+  $("#show-attempts").addClass("d-none");
+  $("#results").addClass("d-none");
+  $("#incoming-results").empty();
+  $("#first-digit").val("");
+  $("#second-digit").val("");
+  $("#third-digit").val("");
+  $("#fourth-digit").val("");
+
+  $.post("/reset", {});
 }

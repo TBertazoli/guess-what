@@ -54,8 +54,8 @@ app.post("/results", async (req, res) => {
     console.log("session exists");
     req.session.counter++;
     if (req.session.counter > 10) {
+      res.send("Game over");
       resetGame(req);
-      res.json({ message: "game over" });
       return;
     }
     return res.json(
@@ -114,6 +114,11 @@ const compareResults = function (generatedNumber, guess, countGuess) {
     countGuess: countGuess,
   };
 };
+
+app.post("/reset", (req, res) => {
+  resetGame(req);
+  res.end();
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on PORT: ${PORT}`);
