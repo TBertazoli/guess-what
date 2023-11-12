@@ -5,25 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./assets/style.css" />
     <title>MasterMind Game</title>
   </head>
 
-  <body>
-    <div class="main">
+  <body class="bg-light">
+    <div class="d-flex flex-column text-center mb-3 p-5">
       <h1>Mastermind Game</h1>
-      <div class="d-none text-center mt-2" id="show-attempts">
-        <h5>
-          <span id="attempt-number"></span>
-        </h5>
+
+      <div class="text-center">
+        <p>Welcome to the guessing game</p>
+        <p>Guess the secret code in as few tries as possible.</p>
+        <p>Please choose your level of difficultuy</p>
       </div>
 
-      <div class="instructions">
+      <div class="dropdown text-center">
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Choose level
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <button class="dropdown-item" onclick="chooseGame('easy')">Easy</button>
+          <button class="dropdown-item" onclick="chooseGame('medium')">
+            Medium
+          </button>
+          <button class="dropdown-item" onclick="chooseGame('hard')">Hard</button>
+        </div>
+      </div>
+      <div>
         <h2>Instructions</h2>
         <p>
           Welcome to our guessing game. Guess the 4 digit secret code in as few
@@ -31,17 +51,22 @@
           code.
         </p>
       </div>
+      <div class="d-none text-center mt-2" id="show-attempts">
+        <h5>
+          <span id="attempt-number"></span>
+        </h5>
+      </div>
 
       <div class="input-wrapper">
-        <div class="input">
-          <input
+        <div class="input" id="input">
+          <!-- <input
             type="number"
             min="0"
             max="9"
             class="form-control"
             id="first-digit"
-          />
-          <input
+          /> -->
+          <!-- <input
             type="number"
             min="0"
             max="9"
@@ -61,7 +86,7 @@
             max="9"
             class="form-control"
             id="fourth-digit"
-          />
+          /> -->
         </div>
         <div class="d-flex" style="justify-content: space-between">
           <button type="button" class="btn btn-primary" onClick="submitGuess()">
@@ -75,12 +100,11 @@
 
       <div id="results" class="d-none" style="margin-top: 20px">
         <h2>Results</h2>
-        <ul>
+        <ul class="text-left">
           <li id="incoming-results"></li>
         </ul>
       </div>
     </div>
-
     <!-- toast for error -->
     <div
       aria-live="polite"
@@ -135,7 +159,19 @@
       </div>
     </div>
 
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
     <script src="./assets/script.js"></script>
   </body>
 </html>
