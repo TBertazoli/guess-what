@@ -82,14 +82,12 @@
     </div>
 
     <!-- toast for error -->
-    <!-- Flexbox container for aligning the toasts -->
     <div
       aria-live="polite"
       aria-atomic="true"
       class="d-flex justify-content-center align-items-center"
       style="position: absolute; top: 20px; right: 20px"
     >
-      <!-- Then put toasts within -->
       <div
         class="toast"
         role="alert"
@@ -112,6 +110,27 @@
         </div>
         <div class="toast-body" id="toast-body">
           "Please enter a valid number"
+        </div>
+      </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal" tabindex="-1" id="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <h1>"Game over"</h1>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              onclick="closeModal()"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>

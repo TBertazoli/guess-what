@@ -14,6 +14,7 @@ const submitGuess = function () {
     //error handling
     .fail((err) => {
       console.log(err);
+      //show toast
       $("#toast").addClass("show");
     })
     //response from server
@@ -23,7 +24,8 @@ const submitGuess = function () {
       //attemps diaplays
       let attempts = 10 - response.countGuess;
       if (attempts == 0 || !response.countGuess) {
-        $("#attempt-number").text("Game-over");
+        //show modasl
+        $("#modal").show();
       } else {
         $("#attempt-number").text("You have " + attempts + " attempts left");
         todisplayResults(response);
@@ -56,6 +58,11 @@ const submitGuess = function () {
 //function to close toast
 function closeToast() {
   $("#toast").removeClass("show");
+}
+
+function closeModal() {
+  $("#modal").hide();
+  resetGame();
 }
 
 //function to reset game
