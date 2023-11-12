@@ -21,9 +21,12 @@ app.use(
 );
 
 //function to generate random numbers from random.org
-var generateRandomNumber = async function () {
+var generateRandomNumber = async function (guessLength) {
+  console.log(guessLength);
   return fetch(
-    "https://www.random.org/integers/?num=4&min=0&max=9&col=1&base=10&format=plain&rnd=new",
+    "https://www.random.org/integers/?num=" +
+      guessLength +
+      "&min=0&max=9&col=1&base=10&format=plain&rnd=new",
     {
       method: "POST",
       body: JSON.stringify({
@@ -38,13 +41,14 @@ var generateRandomNumber = async function () {
   )
     .then((response) => response.text())
     .then((data) => {
-      const fixed = data.split("\n").splice(0, 4);
+      const fixed = data.split("\n").splice(0, guessLength);
       return fixed;
     });
 };
 
 //routes
 app.post("/results", async (req, res) => {
+  let guessLength = req.body.guess.length;
   if (
     (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) ||
     req.body.guess.filter((v) => v >= 10).length > 0
@@ -69,7 +73,7 @@ app.post("/results", async (req, res) => {
       )
     );
   } else {
-    const randomNumber = await generateRandomNumber();
+    const randomNumber = await generateRandomNumber(guessLength);
     req.session.randomNumber = randomNumber;
     req.session.counter = 1;
     return res.json(
