@@ -22,7 +22,6 @@ app.use(
 
 //function to generate random numbers from random.org
 var generateRandomNumber = async function (guessLength) {
-  console.log(guessLength);
   return fetch(
     "https://www.random.org/integers/?num=" +
       guessLength +

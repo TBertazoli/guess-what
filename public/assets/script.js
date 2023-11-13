@@ -5,6 +5,8 @@ let selectedLevel = "";
 
 //function to choose level of difficulty
 function chooseGame(gameLevel) {
+  $("#imput-wrapper").show();
+  $("#dashboard").hide();
   selectedLevel = gameLevel;
   if (gameLevel == "easy") {
     for (let i = 0; i < easyLenght; i++) {
@@ -44,8 +46,14 @@ const submitGuess = function () {
     let getValues = $("#digit-" + i).val();
     values.push(getValues);
   }
+  clear();
 
-  console.log(selectedLevel);
+  //function to clear input
+  function clear() {
+    for (let i = 0; i < inputSize; i++) {
+      $("#digit-" + i).val("");
+    }
+  }
 
   //POST request to server and return response
   $.post("/results", {
@@ -66,26 +74,42 @@ const submitGuess = function () {
       let attempts = 10 - response.countGuess;
       if (attempts == 0 || !response.countGuess) {
         //show modasl
+        $("#show-modal-text").text("Game Over");
         $("#modal").show();
       } else {
         $("#attempt-number").text("You have " + attempts + " attempts left");
-        todisplayResults(response);
+        toDisplayResults(response);
       }
 
-      function todisplayResults(response) {
+      function toDisplayResults(response) {
+        let displayValue = values.join("");
         //results display
         $("#show-attempts").removeClass("d-none");
         $("#results").removeClass("d-none");
         var elementTable = $("<li></li>");
         if (response.correctNumbers == 4 && response.correctLocation == 4) {
-          elementTable.text("Congratulations You won!");
+          elementTable.text(
+            "Player guesses:" +
+              "'" +
+              displayValue +
+              "'" +
+              " , Congratulations You won!"
+          );
+          $("#show-modal-text").text("Congratulations You won!");
+          $("#modal").show();
           $("#incoming-results").append(elementTable);
         } else if (response.incorrect == 4) {
-          elementTable.text("all incorrect");
+          elementTable.text(
+            "Player guesses:" + "'" + displayValue + "'" + " , all incorrect"
+          );
           $("#incoming-results").append(elementTable);
         } else {
           elementTable.text(
-            response.correctNumbers +
+            "Player guesses:" +
+              "'" +
+              displayValue +
+              "' , " +
+              response.correctNumbers +
               " correct numbers and " +
               response.correctLocation +
               " correct location"
@@ -101,6 +125,7 @@ function closeToast() {
   $("#toast").removeClass("show");
 }
 
+//function to close modal
 function closeModal() {
   $("#modal").hide();
   resetGame();
@@ -111,10 +136,9 @@ function resetGame() {
   $("#show-attempts").addClass("d-none");
   $("#results").addClass("d-none");
   $("#incoming-results").empty();
-  $("#first-dig").val("");
-  $("#second-digit").val("");
-  $("#third-digit").val("");
-  $("#fourth-digit").val("");
+  $("#input").empty();
+  $("#dashboard").show();
+  $("#imput-wrapper").hide();
 
   $.post("/reset", {});
 }
