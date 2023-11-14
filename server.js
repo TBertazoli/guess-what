@@ -21,9 +21,11 @@ app.use(
 );
 
 //function to generate random numbers from random.org
-var generateRandomNumber = async function () {
+var generateRandomNumber = async function (guessLength) {
   return fetch(
-    "https://www.random.org/integers/?num=4&min=0&max=9&col=1&base=10&format=plain&rnd=new",
+    "https://www.random.org/integers/?num=" +
+      guessLength +
+      "&min=0&max=9&col=1&base=10&format=plain&rnd=new",
     {
       method: "POST",
       body: JSON.stringify({
@@ -38,13 +40,14 @@ var generateRandomNumber = async function () {
   )
     .then((response) => response.text())
     .then((data) => {
-      const fixed = data.split("\n").splice(0, 4);
+      const fixed = data.split("\n").splice(0, guessLength);
       return fixed;
     });
 };
 
 //routes
 app.post("/results", async (req, res) => {
+  let guessLength = req.body.guess.length;
   if (
     (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) ||
     req.body.guess.filter((v) => v >= 10).length > 0
@@ -69,7 +72,7 @@ app.post("/results", async (req, res) => {
       )
     );
   } else {
-    const randomNumber = await generateRandomNumber();
+    const randomNumber = await generateRandomNumber(guessLength);
     req.session.randomNumber = randomNumber;
     req.session.counter = 1;
     return res.json(
@@ -89,31 +92,37 @@ const compareResults = function (generatedNumber, guess, countGuess) {
   console.log(guess, "guess ");
   let correctNumbers = 0;
   let correctLocation = 0;
-  let incorrect = 0;
-  let matchedNumber = new Set();
 
-  for (var i = 0; i < generatedNumber.length; i++) {
-    if (generatedNumber[i] == guess[i]) {
-      matchedNumber.add(generatedNumber[i]);
+  let paired = new Map();
+
+  generatedNumber.forEach((v, i) => {
+    if (v == guess[i]) {
       correctNumbers++;
       correctLocation++;
-    } else if (
-      generatedNumber.includes(guess[i]) &&
-      !matchedNumber.has(guess[i])
-    ) {
-      correctNumbers++;
-    } else {
-      incorrect++;
+      paired.set(i, v);
+      guess[i] = null;
+    }
+  });
+
+  for (var j = 0; j < guess.length; j++) {
+    for (var i = 0; i < generatedNumber.length; i++) {
+      if (guess[j] == generatedNumber[i] && !paired.has(i)) {
+        paired.set(i, guess[j]);
+        correctNumbers++;
+        guess[j] = null;
+        break;
+      }
     }
   }
 
   console.log(correctNumbers, "correct numbers");
   console.log(correctLocation, "correct location");
-  console.log(incorrect, "incorrect");
+  console.log("incorrect", guess.filter((v) => v != null).length);
+
   return {
     correctNumbers: correctNumbers,
     correctLocation: correctLocation,
-    incorrect: incorrect,
+    incorrect: guess.filter((v) => v != null).length,
     countGuess: countGuess,
   };
 };
