@@ -1,6 +1,6 @@
 # Guess-What
 
-   <img src="assets\images\Screenshot 2023-11-13 at 10.35.21 PM.png">
+   <img src="public\assets\images\Screenshot 2023-11-13 at 10.35.21 PM.png">
 
 ## Description
 
@@ -23,7 +23,7 @@ Through terminal, make sure you have Node.js installed first.
 1 - Install all packages ("npm i").
 2 - "npm start" to start the application.
 3 - http://localhost:3001/ to see the application in HTML.
-The project was also deployed in heroku : https://git.heroku.com/guess-what.git
+The project was also deployed at AWS: http://ec2-34-217-61-65.us-west-2.compute.amazonaws.com:3001
 
 ## Usage
 
@@ -47,6 +47,6 @@ For questions please contact https://github.com/tbertazoli
 
 GitHub repository link: https://github.com/TBertazoli/guess-what
 
-Heroku deployed link: https://git.heroku.com/guess-what.git
+AWS deployed link: http://ec2-34-217-61-65.us-west-2.compute.amazonaws.com:3001
 
 email: tatianabertazoli@gmail.com
