@@ -90,9 +90,15 @@ const submitGuess = function () {
         var elementTable = $("<li></li>");
 
         if (
-          (response.correctNumbers == 4 && response.correctLocation == 4) ||
-          (response.correctNumbers == 6 && response.correctLocation == 6) ||
-          (response.correctNumbers == 8 && response.correctLocation == 8)
+          (selectedLevel == "easy" &&
+            response.correctNumbers == 4 &&
+            response.correctLocation == 4) ||
+          (selectedLevel == "medium" &&
+            response.correctNumbers == 6 &&
+            response.correctLocation == 6) ||
+          (selectedLevel == "hard" &&
+            response.correctNumbers == 8 &&
+            response.correctLocation == 8)
         ) {
           elementTable.text(
             "Player guesses:" +
@@ -105,9 +111,9 @@ const submitGuess = function () {
           $("#modal").show();
           $("#incoming-results").append(elementTable);
         } else if (
-          response.incorrect == 4 ||
-          response.incorrect == 6 ||
-          response.incorrect == 8
+          (selectedLevel == "easy" && response.incorrect == 4) ||
+          (selectedLevel == "medium" && response.incorrect == 6) ||
+          (selectedLevel == "hard" && response.incorrect == 8)
         ) {
           elementTable.text(
             "Player guesses:" + "'" + displayValue + "'" + " , all incorrect"
