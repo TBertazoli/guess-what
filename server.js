@@ -93,13 +93,13 @@ const compareResults = function (generatedNumber, guess, countGuess) {
   let correctNumbers = 0;
   let correctLocation = 0;
 
-  let paired = new Map();
+  let paired = new Set();
 
   generatedNumber.forEach((v, i) => {
     if (v == guess[i]) {
       correctNumbers++;
       correctLocation++;
-      paired.set(i, v);
+      paired.add(i);
       guess[i] = null;
     }
   });
@@ -107,7 +107,7 @@ const compareResults = function (generatedNumber, guess, countGuess) {
   for (var j = 0; j < guess.length; j++) {
     for (var i = 0; i < generatedNumber.length; i++) {
       if (guess[j] == generatedNumber[i] && !paired.has(i)) {
-        paired.set(i, guess[j]);
+        paired.add(i);
         correctNumbers++;
         guess[j] = null;
         break;
