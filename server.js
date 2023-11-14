@@ -92,31 +92,37 @@ const compareResults = function (generatedNumber, guess, countGuess) {
   console.log(guess, "guess ");
   let correctNumbers = 0;
   let correctLocation = 0;
-  let incorrect = 0;
-  let matchedNumber = new Set();
 
-  for (var i = 0; i < generatedNumber.length; i++) {
-    if (generatedNumber[i] == guess[i]) {
-      matchedNumber.add(generatedNumber[i]);
+  let paired = new Set();
+
+  generatedNumber.forEach((v, i) => {
+    if (v == guess[i]) {
       correctNumbers++;
       correctLocation++;
-    } else if (
-      generatedNumber.includes(guess[i]) &&
-      !matchedNumber.has(guess[i])
-    ) {
-      correctNumbers++;
-    } else {
-      incorrect++;
+      paired.set(i, v);
+      guess[i] = null;
+    }
+  });
+
+  for (var j = 0; j < guess.length; j++) {
+    for (var i = 0; i < generatedNumber.length; i++) {
+      if (guess[j] == generatedNumber[i] && !paired.has(i)) {
+        paired.set(i, guess[j]);
+        correctNumbers++;
+        guess[j] = null;
+        break;
+      }
     }
   }
 
   console.log(correctNumbers, "correct numbers");
   console.log(correctLocation, "correct location");
-  console.log(incorrect, "incorrect");
+  console.log("incorrect", guess.filter((v) => v != null).length);
+
   return {
     correctNumbers: correctNumbers,
     correctLocation: correctLocation,
-    incorrect: incorrect,
+    incorrect: guess.filter((v) => v != null).length,
     countGuess: countGuess,
   };
 };

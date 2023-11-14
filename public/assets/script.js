@@ -83,11 +83,17 @@ const submitGuess = function () {
 
       function toDisplayResults(response) {
         let displayValue = values.join("");
+
         //results display
         $("#show-attempts").removeClass("d-none");
         $("#results").removeClass("d-none");
         var elementTable = $("<li></li>");
-        if (response.correctNumbers == 4 && response.correctLocation == 4) {
+
+        if (
+          (response.correctNumbers == 4 && response.correctLocation == 4) ||
+          (response.correctNumbers == 6 && response.correctLocation == 6) ||
+          (response.correctNumbers == 8 && response.correctLocation == 8)
+        ) {
           elementTable.text(
             "Player guesses:" +
               "'" +
@@ -98,7 +104,11 @@ const submitGuess = function () {
           $("#show-modal-text").text("Congratulations You won!");
           $("#modal").show();
           $("#incoming-results").append(elementTable);
-        } else if (response.incorrect == 4) {
+        } else if (
+          response.incorrect == 4 ||
+          response.incorrect == 6 ||
+          response.incorrect == 8
+        ) {
           elementTable.text(
             "Player guesses:" + "'" + displayValue + "'" + " , all incorrect"
           );
