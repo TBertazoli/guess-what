@@ -48,6 +48,6 @@ For questions please contact https://github.com/tbertazoli
 
 GitHub repository link: https://github.com/TBertazoli/guess-what
 
-Heroku deployed link: http://ec2-34-217-61-65.us-west-2.compute.amazonaws.com:3001
+Heroku deployed link: https://guess-what-00eaddd42080.herokuapp.com/
 
 email: tatianabertazoli@gmail.com
