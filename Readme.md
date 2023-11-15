@@ -26,7 +26,7 @@ This project is part of a take-home assignment and It was developed using Node.j
 
 ## Usage
 
-1 - "npm start" to start the application and access the link http://localhost:3001/ to see the application running. This project was also deployed at AWS: http://ec2-34-217-61-65.us-west-2.compute.amazonaws.com:3001
+1 - "npm start" to start the application and access the link http://localhost:3001/ to see the application running. This project was also deployed at Heroku: https://guess-what-00eaddd42080.herokuapp.com/
 2 - Choose the level you want to play.
 3 - Have fun
 
@@ -48,6 +48,6 @@ For questions please contact https://github.com/tbertazoli
 
 GitHub repository link: https://github.com/TBertazoli/guess-what
 
-AWS deployed link: http://ec2-34-217-61-65.us-west-2.compute.amazonaws.com:3001
+Heroku deployed link: http://ec2-34-217-61-65.us-west-2.compute.amazonaws.com:3001
 
 email: tatianabertazoli@gmail.com
