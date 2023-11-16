@@ -26,7 +26,7 @@ var generateRandomNumber = async function (guessLength) {
 };
 
 //routes
-router.post("/results", async (req, res) => {
+router.post("/", async (req, res) => {
   let guessLength = req.body.guess.length;
   if (
     (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) ||
@@ -111,3 +111,5 @@ router.post("/reset", (req, res) => {
   resetGame(req);
   res.end();
 });
+
+module.exports = router;
