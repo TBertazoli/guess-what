@@ -61,11 +61,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-//function to reset the game and session
-function resetGame(req) {
-  req.session.destroy();
-}
-
 //function to compare results
 const compareResults = function (generatedNumber, guess, countGuess) {
   console.log(generatedNumber, "generated number");
@@ -106,10 +101,5 @@ const compareResults = function (generatedNumber, guess, countGuess) {
     countGuess: countGuess,
   };
 };
-
-router.post("/reset", (req, res) => {
-  resetGame(req);
-  res.end();
-});
 
 module.exports = router;
