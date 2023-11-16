@@ -59,8 +59,7 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/login", (req, res) => {
-  console.log("-----------------login------------------");
+router.post("/login", (req, res) => {  
   console.log(req.body.username);
   User.findOne({
     where: {
