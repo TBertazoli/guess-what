@@ -3,11 +3,6 @@ const sessions = require("express-session");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-//middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
 //sequelize
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(sessions.Store);
@@ -27,10 +22,15 @@ app.use(
   })
 );
 
+//middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
 //routes
 app.use(require("./controllers"));
 
 //start server
-app.listen(PORT, () => {
-  console.log(`App listening on PORT: ${PORT}`);
+sequelize.sync({ force: false }).then(() => {
+  app.listen(PORT, () => console.log(`App listening on PORT: ${PORT}`));
 });

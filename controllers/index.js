@@ -1,11 +1,11 @@
 const router = require("express").Router();
 
-const resultsDisplay = require("./results.js");
-const resetGame = require("./reset.js");
-//const user = require("./user.js");
+const resultsDisplayRoute = require("./results.js");
+const resetGameRoute = require("./reset.js");
+const userRoutes = require("./user.js");
 
-router.use("/results", resultsDisplay);
-router.use("/reset", resetGame);
-//router.use("/user", user);
+router.use("/results", resultsDisplayRoute);
+router.use("/reset", resetGameRoute);
+router.use("/users", userRoutes);
 
 module.exports = router;
