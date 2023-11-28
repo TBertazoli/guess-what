@@ -27,18 +27,21 @@ var generateRandomNumber = async function (guessLength) {
 
 //routes
 router.post("/", async (req, res) => {
-  let guessLength = req.body.guess.length;
+  let bodyGuess = req.body.guess;
   if (
-    (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) ||
-    req.body.guess.filter((v) => v >= 10).length > 0
+    (bodyGuess instanceof Array && bodyGuess.indexOf("") > -1) ||
+    bodyGuess.filter((v) => v >= 10).length > 0
   ) {
     res.statusMessage = "invalid input";
     res.status(400).end();
     return;
   }
+
+  //increase counter
   if (req.session.randomNumber) {
     console.log("session exists");
     req.session.counter++;
+    //number of guesses > 10 "game over"
     if (req.session.counter > 10) {
       res.send("Game over");
       resetGame(req);
