@@ -1,4 +1,5 @@
 const router = require("express").Router();
+//const compareResults = require("./../utils/compareResults");
 
 // function to generate random numbers from random.org
 var generateRandomNumber = async function (guessLength) {
@@ -27,10 +28,11 @@ var generateRandomNumber = async function (guessLength) {
 
 //routes
 router.post("/", async (req, res) => {
-  let bodyGuess = req.body.guess;
   if (
-    (bodyGuess instanceof Array && bodyGuess.indexOf("") > -1) ||
-    bodyGuess.filter((v) => v >= 10).length > 0
+    req.body.guess instanceof Array &&
+    req.body.guess.indexOf("") > -1
+    // ||
+    // req.body.guess.filter((v) => v >= 10).length > 0
   ) {
     res.statusMessage = "invalid input";
     res.status(400).end();
@@ -64,7 +66,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//function to compare results
+// //function to compare results
 const compareResults = function (generatedNumber, guess, countGuess) {
   console.log(generatedNumber, "generated number");
   console.log(guess, "guess ");
@@ -73,14 +75,17 @@ const compareResults = function (generatedNumber, guess, countGuess) {
 
   let paired = new Set();
 
+  generatedNumber.forEach((v, i) => {
+    if (v == guess[i]) {
+      correctNumbers++;
+      correctNumbers++;
+      paired.add(i);
+      guess[i] = null;
+    }
+  });
+
   for (var j = 0; j < guess.length; j++) {
     for (var i = 0; i < generatedNumber.length; i++) {
-      if (i == j && generatedNumber == guess) {
-        correctNumbers++;
-        correctLocation++;
-        paired.add(i);
-        guess[i] = null;
-      }
       if (guess[j] == generatedNumber[i] && !paired.has(i)) {
         paired.add(i);
         correctNumbers++;
