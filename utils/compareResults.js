@@ -8,17 +8,14 @@ module.exports = {
 
     let paired = new Set();
 
-    generatedNumber.forEach((v, i) => {
-      if (v == guess[i]) {
-        correctNumbers++;
-        correctNumbers++;
-        paired.add(i);
-        guess[i] = null;
-      }
-    });
-
     for (var j = 0; j < guess.length; j++) {
       for (var i = 0; i < generatedNumber.length; i++) {
+        if (generatedNumber[i] == guess[i]) {
+          correctNumbers++;
+          correctLocation++;
+          paired.add(i);
+          guess[i] = null;
+        }
         if (guess[j] == generatedNumber[i] && !paired.has(i)) {
           paired.add(i);
           correctNumbers++;
