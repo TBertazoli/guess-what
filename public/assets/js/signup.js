@@ -1,9 +1,9 @@
 async function signupFormHandler(event) {
   event.preventDefault();
 
-  const username = $("#username-signup").value();
-  const email = $("#email-signup").value();
-  const password = $("#password-signup").value();
+  const username = $("#username-signup").val();
+  const email = $("#email-signup").val();
+  const password = $("#password-signup").val();
 
   if (username && email && password) {
     const response = await fetch("/users", {
@@ -15,6 +15,12 @@ async function signupFormHandler(event) {
       }),
       headers: { "Content-Type": "application/json" },
     });
+
+    if (response.ok) {
+      document.location.replace("/");
+    } else {
+      alert(response.statusText);
+    }
   }
 }
 

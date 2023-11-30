@@ -93,4 +93,12 @@ router.post("/login", (req, res) => {
   });
 });
 
+// logout
+router.post("/logout", (req, res) => {
+  console.log("-----logout-----");
+  req.session.destroy(() => {
+    res.status(204).end();
+  });
+});
+
 module.exports = router;

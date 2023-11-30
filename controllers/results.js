@@ -28,11 +28,10 @@ var generateRandomNumber = async function (guessLength) {
 
 //routes
 router.post("/", async (req, res) => {
+  let guessLength = req.body.guess.length;
   if (
-    req.body.guess instanceof Array &&
-    req.body.guess.indexOf("") > -1
-    // ||
-    // req.body.guess.filter((v) => v >= 10).length > 0
+    (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) ||
+    req.body.guess.filter((v) => v >= 10).length > 0
   ) {
     res.statusMessage = "invalid input";
     res.status(400).end();

@@ -22,9 +22,11 @@ app.use(
   })
 );
 
+const helpers = require("./utils/compareResults");
+
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 //routes
