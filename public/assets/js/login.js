@@ -1,11 +1,11 @@
 async function loginFormHandler(event) {
   event.preventDefault();
 
-  const username = $("#username-login").value.trim();
-  const password = $("#password-login").value.trim();
+  const username = $("#username-login").val();
+  const password = $("#password-login").val();
 
   if (username && password) {
-    const response = await fetch("/user/login", {
+    const response = await fetch("/users/login", {
       method: "post",
       body: JSON.stringify({
         username: username,

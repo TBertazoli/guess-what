@@ -22,7 +22,7 @@ var generateRandomNumber = async function (guessLength) {
     .then((response) => response.text())
     .then((data) => {
       const fixed = data.split("\n").splice(0, guessLength);
-      return [5, 4, 6, 2, 5, 0];
+      return fixed;
     });
 };
 

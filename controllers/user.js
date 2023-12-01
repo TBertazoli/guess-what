@@ -20,6 +20,12 @@ router.get("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
+    include: [
+      {
+        model: Results,
+        attributes: ["id", "result", "created_at"],
+      },
+    ],
   })
 
     .then((dbuserData) => {
@@ -76,7 +82,7 @@ router.post("/login", (req, res) => {
     }
     const validPassword = dbuserData.checkPassword(req.body.password);
     if (!validPassword) {
-      res.status(400).json({ message: "incorrecte password" });
+      res.status(400).json({ message: "incorrect password" });
       return;
     }
 
@@ -86,7 +92,7 @@ router.post("/login", (req, res) => {
       req.session.loggedIn = true;
 
       res.json({
-        user: dbdata,
+        user: dbuserData,
         message: "You are now logged in as " + dbuserData.username + " !",
       });
     });
@@ -100,5 +106,8 @@ router.post("/logout", (req, res) => {
     res.status(204).end();
   });
 });
+
+//sending results to user
+router.post(`/${id}/`);
 
 module.exports = router;

@@ -8,21 +8,17 @@ const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(sessions.Store);
 
 //create session
-const countdown = 60000 * 15;
-//session middleware
 app.use(
   sessions({
     secret: "asdsadsaddsd8r37r2rher33redfsfge5",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: countdown },
+    cookie: {},
     store: new SequelizeStore({
       db: sequelize,
     }),
   })
 );
-
-const helpers = require("./utils/compareResults");
 
 //middleware
 app.use(express.json());
