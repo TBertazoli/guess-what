@@ -1,4 +1,5 @@
 const router = require("express").Router();
+
 //const compareResults = require("./../utils/compareResults");
 
 // function to generate random numbers from random.org
@@ -26,8 +27,14 @@ var generateRandomNumber = async function (guessLength) {
     });
 };
 
+//function to reset the game
+function resetGame(req) {
+  req.session.destroy();
+}
+
 //routes
 router.post("/", async (req, res) => {
+  //to check if incoming data is valida
   let guessLength = req.body.guess.length;
   if (
     (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) ||

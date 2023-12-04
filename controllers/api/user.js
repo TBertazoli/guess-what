@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const { User } = require("../models");
+const { User, Results } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 //get all users
 router.get("/", (req, res) => {
@@ -23,7 +24,7 @@ router.get("/:id", (req, res) => {
     include: [
       {
         model: Results,
-        attributes: ["id", "result", "created_at"],
+        attributes: ["id", "score", "created_at"],
       },
     ],
   })
@@ -106,8 +107,5 @@ router.post("/logout", (req, res) => {
     res.status(204).end();
   });
 });
-
-//sending results to user
-router.post(`/${id}/`);
 
 module.exports = router;

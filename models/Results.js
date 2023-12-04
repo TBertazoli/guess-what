@@ -11,9 +11,9 @@ Results.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    result: {
+    score: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -25,7 +25,6 @@ Results.init(
   },
   {
     sequelize,
-    timestamp: false,
     freezeTableName: true,
     underscored: true,
     modelName: "results",

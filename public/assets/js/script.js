@@ -2,6 +2,7 @@ let easyLenght = 4;
 let mediumLenght = 6;
 let hardLenght = 8;
 let selectedLevel = "";
+let results_table = [];
 
 //function to choose level of difficulty
 function chooseGame(gameLevel) {
@@ -32,7 +33,7 @@ function chooseGame(gameLevel) {
   }
 }
 
-//function to colect numbers
+//function to collect numbers
 const submitGuess = function () {
   let values = [];
   let inputSize =
@@ -56,7 +57,7 @@ const submitGuess = function () {
   }
 
   //POST request to server and return response
-  $.post("/results", {
+  $.post("/api/results", {
     guess: values,
   })
 
@@ -69,6 +70,7 @@ const submitGuess = function () {
     //response from server
     .done((response) => {
       console.log(response);
+      results_table.push(response);
 
       //attemps diaplays
       let attempts = 10 - response.countGuess;
@@ -178,15 +180,14 @@ const logout = function () {
 };
 
 //post to save score
-const saveScore = function () { 
-    $.post(`/user/${id}/scores`, {
-      score: values,
+const saveScore = function () {
+  $.post(`/api/user`, {
+    score: results_table,
+  })
+    .fail((err) => {
+      console.log(err);
     })
-      .fail((err) => {
-        console.log(err);
-      })
-      .done((response) => {
-        console.log(response);
-      });
-  }
+    .done((response) => {
+      console.log(response);
+    });
 };
