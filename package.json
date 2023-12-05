@@ -1,27 +1,28 @@
 {
-  "name": "server",
+  "name": "mastermind",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
-    "start": "node server.js",
-    "watch": "nodemon server.js",
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "seed": "cd server && npm run seed",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "build": "cd client && npm run build"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "connect-session-sequelize": "^7.1.7",
-    "dotenv": "^16.3.1",
-    "express": "^4.17.1",
-    "express-session": "^1.17.3",
-    "mysql2": "^3.6.3",
-    "sequelize": "^6.35.0"
-  },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "nodemon": "^2.0.3"
+    "concurrently": "^7.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TBertazoli/guess-what"
+  },
+  "keywords": [],
+  "dependencies": {
+    "react-bootstrap": "^2.7.0",
+    "react-router-dom": "^6.7.0"
   }
 }
