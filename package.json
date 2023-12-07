@@ -22,6 +22,7 @@
   },
   "keywords": [],
   "dependencies": {
+    "jwt-decode": "^4.0.0",
     "react-bootstrap": "^2.7.0",
     "react-router-dom": "^6.7.0"
   }
