@@ -35,10 +35,11 @@ function resetGame(req) {
 //routes
 router.post("/", async (req, res) => {
   //to check if incoming data is valida
-  let guessLength = req.body.guess.length;
+  let guess = [req.body.guess];
+  let guessLength = guess.length;
   if (
-    (req.body.guess instanceof Array && req.body.guess.indexOf("") > -1) ||
-    req.body.guess.filter((v) => v >= 10).length > 0
+    (guess instanceof Array && guess.indexOf("") > -1) ||
+    guess.filter((v) => v >= 10).length > 0
   ) {
     res.statusMessage = "invalid input";
     res.status(400).end();
@@ -66,9 +67,7 @@ router.post("/", async (req, res) => {
     const randomNumber = await generateRandomNumber(guessLength);
     req.session.randomNumber = randomNumber;
     req.session.counter = 1;
-    return res.json(
-      compareResults(randomNumber, req.body.guess, req.session.counter)
-    );
+    return res.json(compareResults(randomNumber, guess, req.session.counter));
   }
 });
 
