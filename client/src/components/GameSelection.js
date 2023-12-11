@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dropdown, InputGroup, Button } from "react-bootstrap";
+import { Dropdown, InputGroup, Form, Button } from "react-bootstrap";
 
 export default function GameSelection() {
   //logic to create the input field based on level of dificulty
@@ -23,15 +23,16 @@ export default function GameSelection() {
     const tempGuess = guess;
     guess[i] = v;
     setGuess(tempGuess);
-    console.log(guess);
   };
+
   //logic to send the guess to the server
   const submitGuess = () => {
-    console.log(guess);
     fetch("/api/results", {
       method: "POST",
-
-      body: guess,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(guess),
     })
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
@@ -52,14 +53,14 @@ export default function GameSelection() {
       <InputGroup className="mb-3" id="input-wrapper">
         <div className="d-flex" id="input">
           {gameLevel.map((value, index) => (
-            <input
+            <Form.Control
               type="number"
               min="0"
               max="9"
               key={index}
               id={index}
               onChange={(event) => handleUserInput(event.target.value, index)}
-            ></input>
+            ></Form.Control>
           ))}
         </div>
         <div className="d-flex">
@@ -75,6 +76,12 @@ export default function GameSelection() {
           </Button>
         </div>
       </InputGroup>
+      <div id="results" className="d-none">
+        <h2>Results</h2>
+        <ul className="text-left">
+          <li id="incoming-results"></li>
+        </ul>
+      </div>
     </>
   );
 }

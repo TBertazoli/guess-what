@@ -34,9 +34,10 @@ function resetGame(req) {
 
 //routes
 router.post("/", async (req, res) => {
-  //to check if incoming data is valida
-  let guess = [req.body.guess];
-  let guessLength = guess.length;
+  //to check if incoming data is valid
+  const results = req.body;
+  let guessLength = results.length;
+
   if (
     (guess instanceof Array && guess.indexOf("") > -1) ||
     guess.filter((v) => v >= 10).length > 0
@@ -46,7 +47,7 @@ router.post("/", async (req, res) => {
     return;
   }
 
-  //increase counter
+  //if session exist update counter
   if (req.session.randomNumber) {
     console.log("session exists");
     req.session.counter++;
@@ -71,7 +72,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// //function to compare results
+// // //function to compare results
 const compareResults = function (generatedNumber, guess, countGuess) {
   console.log(generatedNumber, "generated number");
   console.log(guess, "guess ");

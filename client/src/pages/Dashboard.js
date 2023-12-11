@@ -155,13 +155,6 @@ export default function Dashboard() {
           <span id="attempt-number"></span>
         </h5>
       </div>
-
-      <div id="results" className="d-none">
-        <h2>Results</h2>
-        <ul className="text-left">
-          <li id="incoming-results"></li>
-        </ul>
-      </div>
     </div>
   );
 }
