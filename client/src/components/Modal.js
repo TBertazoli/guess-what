@@ -1,35 +1,32 @@
-import React from "react";
+import { Modal, Button } from "react-bootstrap";
+import { useState } from "react";
 
-const Modal = () => {
+export default function Modal() {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <div class="modal" tabindex="-1" id="modal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body text-center">
-            <h2 id="show-modal-text"></h2>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              onClick="closeModal()"
-            >
-              Close
-            </button>
+    <>
+      <Button variant="primary" onClick={handleShow}>
+        Launch demo modal
+      </Button>
 
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onClick="saveScore()"
-            >
-              Save Score
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, I need to change this text</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
-};
-
-export default Modal;
+}

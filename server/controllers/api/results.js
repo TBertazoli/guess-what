@@ -35,8 +35,8 @@ function resetGame(req) {
 //routes
 router.post("/", async (req, res) => {
   //to check if incoming data is valid
-  const results = req.body;
-  let guessLength = results.length;
+  const guess = req.body;
+  let guessLength = guess.length;
 
   if (
     (guess instanceof Array && guess.indexOf("") > -1) ||
@@ -58,11 +58,7 @@ router.post("/", async (req, res) => {
       return;
     }
     return res.json(
-      compareResults(
-        req.session.randomNumber,
-        req.body.guess,
-        req.session.counter
-      )
+      compareResults(req.session.randomNumber, req.body, req.session.counter)
     );
   } else {
     const randomNumber = await generateRandomNumber(guessLength);

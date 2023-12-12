@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Dropdown, InputGroup, Form, Button } from "react-bootstrap";
 
 export default function GameSelection() {
+  //const [isModalOpen, setIsModalOpen] = useState(false);
+
   //logic to create the input field based on level of dificulty
   let easy = Array.from({ length: 4 });
   let medium = Array.from({ length: 6 });
@@ -9,10 +11,10 @@ export default function GameSelection() {
 
   const [gameLevel, setGameLevel] = useState([]);
 
-  const chooseGame = function (gameSelected) {
-    gameSelected === "easy"
+  const chooseGame = function (gameLevel) {
+    gameLevel === "easy"
       ? setGameLevel(easy)
-      : gameSelected === "medium"
+      : gameLevel === "medium"
       ? setGameLevel(medium)
       : setGameLevel(hard);
   };
@@ -26,6 +28,13 @@ export default function GameSelection() {
   };
 
   //logic to send the guess to the server
+  let [showResults, setshowResults] = useState([
+    {
+      playerGuess: "",
+      text: "",
+    },
+  ]);
+
   const submitGuess = () => {
     fetch("/api/results", {
       method: "POST",
@@ -34,9 +43,118 @@ export default function GameSelection() {
       },
       body: JSON.stringify(guess),
     })
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+
+        //attemps diaplays
+        let attempts = 10 - response.countGuess;
+        if (attempts === 0 || !response.countGuess) {
+          console.log("game over");
+          //     //show modasl
+          //     // $("#show-modal-text").text("Game Over");
+          //     setIsModalOpen(!isModalOpen);
+        } else {
+          //     //$("#attempt-number").text("You have " + attempts + " attempts left");
+          toDisplayResults(response);
+        }
+
+        function toDisplayResults(response) {
+          (gameLevel === easy &&
+            response.correctNumbers === 4 &&
+            response.correctLocation === 4) ||
+          (gameLevel === medium &&
+            response.correctNumbers === 6 &&
+            response.correctLocation === 6) ||
+          (gameLevel === hard &&
+            response.correctNumbers === 8 &&
+            response.correctLocation === 8)
+            ? setshowResults([
+                ...showResults,
+                {
+                  playerGuess: "Player guesses: " + guess + " - ",
+                  text: "Congratulations You Won!",
+                },
+              ])
+            : (gameLevel === "easy" && response.incorrect === 4) ||
+              (gameLevel === "medium" && response.incorrect === 6) ||
+              (gameLevel === "hard" && response.incorrect === 8)
+            ? setshowResults([
+                ...showResults,
+                {
+                  playerGuess: "Player guesses: " + guess + " - ",
+                  text: ",All incorect",
+                },
+              ])
+            : setshowResults([
+                ...showResults,
+                {
+                  playerGuess: "Player guesses: " + guess + " - ",
+                  text:
+                    response.correctNumbers +
+                    " correct numbers and " +
+                    response.correctLocation +
+                    " correct location",
+                },
+              ]);
+        }
+      });
   };
+
+  //function to close toast
+  // function closeToast() {
+  //   $("#toast").removeClassNameclassName("show");
+  // }
+
+  //function to close modal
+  // function closeModal() {
+  //   $("#modal").hide();
+  //   resetGame();
+  // }
+
+  //function to reset game
+  // function resetGame() {
+  //   $("#show-attempts").addClassNameclassName("d-none");
+  //   $("#results").addClassNameclassName("d-none");
+  //   $("#incoming-results").empty();
+  //   $("#input").empty();
+  //   $("#dashboard").show();
+  //   $("#imput-wrapper").hide();
+
+  //   $.post("/reset", {});
+  // }
+
+  //Post to logout
+  // const logout = function () {
+  //   $.post("/users/logout", {})
+  //     .fail((err) => {
+  //       console.log(err);
+  //     })
+
+  //     .done((response) => {
+  //       document.location.replace("/");
+  //     });
+
+  //   if (response.ok) {
+  //     document.location.replace("/");
+  //   } else {
+  //     alert(response.statusText);
+  //   }
+  // };
+
+  //post to save score
+  // const saveScore = function () {
+  //   $.post(`/api/user`, {
+  //     score: results_table,
+  //   })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //     });
+  // };
 
   return (
     <>
@@ -76,11 +194,25 @@ export default function GameSelection() {
           </Button>
         </div>
       </InputGroup>
-      <div id="results" className="d-none">
+      {/* show results */}
+      <div id="results">
         <h2>Results</h2>
-        <ul className="text-left">
-          <li id="incoming-results"></li>
+        <ul id="element-table">
+          {showResults.map((results, index) => {
+            return (
+              <li id="incoming-results" key={index}>
+                {results.playerGuess}
+                {results.text}
+              </li>
+            );
+          })}
         </ul>
+      </div>
+      {/* attempt guesses */}
+      <div className="text-center mt-2" id="show-attempts">
+        <h5>
+          <span id="attempt-number"></span>
+        </h5>
       </div>
     </>
   );
