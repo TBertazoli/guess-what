@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 // router.get("/", (req, res) => {
 //   console.log("============router.get/=============");
+
 //   if (req.session.loggedIn) {
 //     console.log("already loggedin, redirecting to /");
 //     res.redirect("/");

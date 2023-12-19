@@ -1,6 +1,17 @@
-import GameSelection from "./../components/GameSelection";
+// import { useState } from "react";
+import { Dropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
+  const switchPage = (game) => {
+    navigate("/mastermind", {
+      state: { game },
+    });
+    console.log(game);
+  };
+
   return (
     <div className="d-flex flex-column text-center mb-3 p-5">
       <div id="dashboard">
@@ -11,7 +22,17 @@ export default function Dashboard() {
           <p>Please choose your level of difficulty.</p>
         </div>
       </div>
-      <GameSelection />
+      <Dropdown>
+        <Dropdown.Toggle id="dropdownMenuButton">Choose level</Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => switchPage("easy")}>Easy</Dropdown.Item>
+          <Dropdown.Item onClick={() => switchPage("medium")}>
+            Medium
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => switchPage("hard")}>Hard</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   );
 }
