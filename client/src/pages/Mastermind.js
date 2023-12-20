@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import SubmitGuess from "../components/SubmitGuess";
+import Show from "../components/Show";
 
 export default function Mastermind() {
   //logic to retrieve the level of dificulty from the dashboard
@@ -38,15 +38,106 @@ export default function Mastermind() {
 
   //logic to submit the guess
   const [isOpen, setisOpen] = useState(false);
-  const handleClick = () => {
-    setisOpen(!isOpen);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    submitGuess();
+    setisOpen(true);
+  };
+
+  //logic to send the guess to the server
+  let [showResults, setshowResults] = useState([
+    {
+      playerGuess: "",
+      text: "",
+      attempt: "",
+    },
+  ]);
+
+  const submitGuess = () => {
+    fetch("/api/results", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(guess),
+    })
+      .catch((err) => console.log(err))
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+
+        //attemps diaplays
+        let attempts = 10 - response.countGuess;
+        if (attempts === 0 || !response.countGuess) {
+          console.log("game over");
+
+          //     //show modasl
+          //     // $("#show-modal-text").text("Game Over");
+          //     setIsModalOpen(!isModalOpen);
+        } else {
+          setshowResults([
+            ...showResults,
+            {
+              attempt:
+                "You have " + (10 - response.countGuess) + " Attempts left",
+            },
+          ]);
+          console.log(showResults);
+          //     //$("#attempt-number").text("You have " + attempts + " attempts left");
+          toDisplayResults(response);
+        }
+
+        function toDisplayResults(response) {
+          (gameLevel === 4 &&
+            response.correctNumbers === 4 &&
+            response.correctLocation === 4) ||
+          (gameLevel === 6 &&
+            response.correctNumbers === 6 &&
+            response.correctLocation === 6) ||
+          (gameLevel === 8 &&
+            response.correctNumbers === 8 &&
+            response.correctLocation === 8)
+            ? setshowResults([
+                ...showResults,
+                {
+                  playerGuess: "Player guesses: " + guess + " - ",
+                  text: "Congratulations You Won!",
+                },
+              ])
+            : (gameLevel === 4 && response.incorrect === 4) ||
+              (gameLevel === 6 && response.incorrect === 6) ||
+              (gameLevel === 8 && response.incorrect === 8)
+            ? setshowResults([
+                ...showResults,
+                {
+                  playerGuess: "Player guesses: " + guess + " - ",
+                  text: "All incorect",
+                },
+              ])
+            : setshowResults([
+                ...showResults,
+                {
+                  playerGuess: "Player guesses: " + guess + " - ",
+                  text:
+                    response.correctNumbers +
+                    " correct numbers and " +
+                    response.correctLocation +
+                    " correct location",
+                },
+              ]);
+        }
+      });
   };
 
   return (
-    <>
-      {" "}
-      <InputGroup className="mb-3" id="input-wrapper">
-        <div className="d-flex" id="input">
+    <div className="m-5 text-center">
+      <div>
+        <h1>Level {game}</h1>
+      </div>
+
+      <InputGroup id="input-wrapper" className="justify-content-center">
+        <div id="input" className="d-flex mr-2">
           {gameLevel.map((game, index) => (
             <Form.Control
               type="number"
@@ -60,18 +151,19 @@ export default function Mastermind() {
         </div>
         <div className="d-flex">
           <Button
-            type="submit"
-            className="btn btn-primary"
-            onClick={handleClick}
+            type="button"
+            className="btn btn-primary mr-2"
+            onClick={(e) => handleSubmit(e)}
           >
             Submit
           </Button>
-          {isOpen && <SubmitGuess guess={guess} />}
           <Button type="reset" className="btn btn-primary">
+            {/* onClick={handleReset} */}
             Reset
           </Button>
         </div>
       </InputGroup>
-    </>
+      {isOpen && <Show showResults={showResults} />}
+    </div>
   );
 }
