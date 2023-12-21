@@ -76,15 +76,6 @@ export default function Mastermind() {
           //     // $("#show-modal-text").text("Game Over");
           //     setIsModalOpen(!isModalOpen);
         } else {
-          setshowResults([
-            ...showResults,
-            {
-              attempt:
-                "You have " + (10 - response.countGuess) + " Attempts left",
-            },
-          ]);
-          console.log(showResults);
-          //     //$("#attempt-number").text("You have " + attempts + " attempts left");
           toDisplayResults(response);
         }
 
@@ -113,6 +104,10 @@ export default function Mastermind() {
                 {
                   playerGuess: "Player guesses: " + guess + " - ",
                   text: "All incorect",
+                  attempt:
+                    " - You have " +
+                    (10 - response.countGuess) +
+                    " Attempts left",
                 },
               ])
             : setshowResults([
@@ -124,6 +119,10 @@ export default function Mastermind() {
                     " correct numbers and " +
                     response.correctLocation +
                     " correct location",
+                  attempt:
+                    " - You have " +
+                    (10 - response.countGuess) +
+                    " Attempts left",
                 },
               ]);
         }
@@ -133,9 +132,8 @@ export default function Mastermind() {
   return (
     <div className="m-5 text-center">
       <div>
-        <h1>Level {game}</h1>
+        <h1 className="mb-5">Level {game}</h1>
       </div>
-
       <InputGroup id="input-wrapper" className="justify-content-center">
         <div id="input" className="d-flex mr-2">
           {gameLevel.map((game, index) => (
