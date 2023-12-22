@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import Show from "../components/Show";
+import ModalSet from "../components/ModalSet";
 
 export default function Mastermind() {
   //logic to retrieve the level of dificulty from the dashboard
@@ -29,7 +30,7 @@ export default function Mastermind() {
   }, [chooseGame]);
 
   //logic to retrieve the values from input field
-  const [guess, setGuess] = useState([]);
+  let [guess, setGuess] = useState([]);
   const handleUserInput = (v, i) => {
     const tempGuess = guess;
     guess[i] = v;
@@ -39,10 +40,17 @@ export default function Mastermind() {
   //logic to submit the guess
   const [isOpen, setisOpen] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     submitGuess();
     setisOpen(true);
+    clearInput();
+  };
+
+  const clearInput = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+      (input) => (input.value = "")
+    );
+    setGuess([]);
   };
 
   //logic to send the guess to the server
@@ -71,10 +79,8 @@ export default function Mastermind() {
         let attempts = 10 - response.countGuess;
         if (attempts === 0 || !response.countGuess) {
           console.log("game over");
-
-          //     //show modasl
-          //     // $("#show-modal-text").text("Game Over");
-          //     setIsModalOpen(!isModalOpen);
+          setshowResults([...showResults, { text: "Game Over" }]);
+          // setIsModalOpen(!isModalOpen);
         } else {
           toDisplayResults(response);
         }
@@ -129,6 +135,9 @@ export default function Mastermind() {
       });
   };
 
+  // logic for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="m-5 text-center">
       <div>
@@ -149,9 +158,9 @@ export default function Mastermind() {
         </div>
         <div className="d-flex">
           <Button
-            type="button"
+            type="submit"
             className="btn btn-primary mr-2"
-            onClick={(e) => handleSubmit(e)}
+            onClick={handleSubmit}
           >
             Submit
           </Button>
@@ -162,6 +171,9 @@ export default function Mastermind() {
         </div>
       </InputGroup>
       {isOpen && <Show showResults={showResults} />}
+      {isModalOpen && (
+        <ModalSet setIsModalOpen={setIsModalOpen} showResults={showResults} />
+      )}
     </div>
   );
 }
